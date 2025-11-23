@@ -7,8 +7,8 @@ const testDir = "./test-exports-validation";
 const testImports = [
   "import { Button } from 'react-shadcn-kit/atoms/button'",
   "import { Card } from 'react-shadcn-kit/atoms/card'",
-  "import { AppNavbar } from 'react-shadcn-kit/molecules/app-navbar'",
-  "import DefaultLayout from 'react-shadcn-kit/organisms/default-layout'",
+  "import { AppNavbar } from 'react-shadcn-kit/organisms/app-navbar'",
+  "import DefaultLayout from 'react-shadcn-kit/layouts/default-layout'",
   "import { useIsMobile } from 'react-shadcn-kit/hooks/use-mobile'",
   "import { cn } from 'react-shadcn-kit/lib/utils'",
 ];

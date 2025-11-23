@@ -22,6 +22,7 @@ export default defineConfig({
         "src/template",
         "src/molecules",
         "src/organisms",
+        "src/layouts",
         "src/index.ts",
         "src/global.css",
       ],
@@ -54,7 +55,7 @@ export default defineConfig({
       input: Object.fromEntries(
         // https://rollupjs.org/configuration-options/#input
         glob
-          .sync("src/{atoms,hooks,lib,template,molecules,organisms}/**/*.{ts,tsx}", {
+          .sync("src/{atoms,hooks,lib,template,molecules,organisms,layouts}/**/*.{ts,tsx}", {
             ignore: ["src/**/*.d.ts", "src/**/*.test.tsx", "src/test/**/*", "src/vite-env.d.ts"],
           })
           .concat(["src/index.ts"])
