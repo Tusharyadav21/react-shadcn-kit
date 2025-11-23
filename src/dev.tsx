@@ -56,6 +56,26 @@ function Demo() {
           count: 3,
           showBadge: true,
         },
+
+        // Example user menu items: link + action-like items
+        userMenuItems: [
+          { label: "Profile", href: "/profile", icon: "User" },
+          { label: "Account Settings", href: "/settings", icon: "Settings" },
+          {
+            label: "Toggle Theme (demo)",
+            href: "#toggle-theme",
+            icon: "Sun",
+            onClick: () => {
+              try {
+                document.documentElement.classList.toggle("dark");
+              } catch {
+                /* noop in non-browser env */
+              }
+              toast.info("Toggled theme (demo)");
+            },
+          },
+          { label: "Sign out", href: "/logout", icon: "LogOut" },
+        ],
         search: {
           enabled: true,
           placeholder: "Search navbar...",
@@ -104,6 +124,12 @@ function Demo() {
         notifications: {
           enabled: false,
         },
+        userMenuItems: [
+          { label: "Profile", href: "/profile", icon: "User" },
+          { label: "Billing", href: "/billing", icon: "CreditCard" },
+          { label: "Preferences", href: "/preferences", icon: "Sliders" },
+          { label: "Sign out", href: "/logout", icon: "LogOut" },
+        ],
       },
     },
     appName: "MyApp",

@@ -74,6 +74,7 @@ export type BaseComponentConfig = {
 export type NavbarConfig = BaseComponentConfig & {
   height?: NavbarHeight;
   items?: MenuItem[];
+  userMenuItems?: { label: string; href?: string; icon?: string; onClick?: () => void }[];
 };
 
 export type SidebarGroup = {
@@ -86,6 +87,7 @@ export type SidebarConfig = BaseComponentConfig & {
   width?: string;
   placement?: Placement;
   groups?: SidebarGroup[];
+  userMenuItems?: { label: string; href?: string; icon?: string; onClick?: () => void }[];
 };
 
 export type ComponentConfig = {
@@ -121,12 +123,22 @@ export default function DefaultLayout({
     icon: getIcon(item.icon || ""),
   }));
 
+  const navbarUserMenuItems = navbar.userMenuItems?.map((item) => ({
+    ...item,
+    icon: item.icon ? getIcon(item.icon) : undefined,
+  }));
+
   const sidebarGroups = sidebar.groups?.map((group) => ({
     ...group,
     items: group.items.map((item) => ({
       ...item,
       icon: getIcon(item.icon || ""),
     })),
+  }));
+
+  const sidebarUserMenuItems = sidebar.userMenuItems?.map((item) => ({
+    ...item,
+    icon: item.icon ? getIcon(item.icon) : undefined,
   }));
 
   const sidebarProviderStyle: React.CSSProperties = {
@@ -168,7 +180,7 @@ export default function DefaultLayout({
             showNotifications={navbar.notifications?.enabled}
             notifications={notifications}
             user={layoutConfig.user}
-            userMenuItems={undefined}
+            userMenuItems={navbarUserMenuItems}
             branding={navbar.branding}
             labels={undefined}
             style={{ height: navbar.height }}
@@ -184,7 +196,7 @@ export default function DefaultLayout({
               groups={sidebarGroups}
               showThemeToggle={sidebar.showThemeToggle}
               user={layoutConfig.user}
-              userMenuItems={undefined}
+              userMenuItems={sidebarUserMenuItems}
               branding={sidebar.branding}
               labels={undefined}
               hideBranding={false}
