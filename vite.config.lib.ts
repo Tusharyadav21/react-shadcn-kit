@@ -8,12 +8,16 @@ import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
 
-// https://vitejs.dev/config/
+const pkg = JSON.parse(fs.readFileSync(resolve(__dirname, "package.json"), "utf-8"));
+
 export default defineConfig({
   plugins: [
     react(),
     libInjectCss(),
+
+    // Safe: does not break Tailwind build behavior
     tailwindcss(),
+
     dts({
       include: [
         "src/atoms",
@@ -26,58 +30,58 @@ export default defineConfig({
         "src/global.css",
       ],
       exclude: ["src/test", "**/*.test.tsx", "src/vite-env.d.ts"],
+      rollupTypes: false, // enhances types output stability
     }),
   ],
+
   build: {
     copyPublicDir: false,
+
+    // ⚡ Safe, fast, zero Tailwind risk
+    minify: "esbuild",
+    sourcemap: true,
+
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       formats: ["es"],
     },
+
     rollupOptions: {
-      // Externalize dependencies and peerDependencies so we don't bundle node_modules
       external: [
-        ...Object.keys(
-          JSON.parse(fs.readFileSync(resolve(__dirname, "package.json"), "utf-8")).dependencies ||
-            {},
-        ),
-        ...Object.keys(
-          JSON.parse(fs.readFileSync(resolve(__dirname, "package.json"), "utf-8"))
-            .peerDependencies || {},
-        ),
+        ...Object.keys(pkg.dependencies || {}),
+        ...Object.keys(pkg.peerDependencies || {}),
         "react/jsx-runtime",
         "tailwindcss",
         "@tailwindcss/vite",
         "react-dom/client",
         "react-dom",
       ],
-      input: Object.fromEntries(
-        // https://rollupjs.org/configuration-options/#input
-        glob
-          .sync("src/{atoms,hooks,lib,template,molecules,organisms,layouts}/**/*.{ts,tsx}", {
-            ignore: ["src/**/*.d.ts", "src/**/*.test.tsx", "src/test/**/*", "src/vite-env.d.ts"],
-          })
-          .concat(["src/index.ts"])
-          .map((file) => [
-            // 1. The name of the entry point
-            // src/nested/foo.js becomes nested/foo
-            relative("src", file.slice(0, file.length - extname(file).length)),
-            // 2. The absolute path to the entry file
-            // src/nested/foo.ts becomes /project/src/nested/foo.ts
-            fileURLToPath(new URL(file, import.meta.url)),
-          ]),
-      ),
+
+      input: {
+        index: resolve(__dirname, "src/index.ts"),
+        "default-layout": resolve(__dirname, "src/default-layout.tsx"),
+        "atoms/index": resolve(__dirname, "src/atoms/index.ts"),
+        "molecules/index": resolve(__dirname, "src/molecules/index.ts"),
+        "organisms/index": resolve(__dirname, "src/organisms/index.ts"),
+        "hooks/index": resolve(__dirname, "src/hooks/index.ts"),
+        "lib/index": resolve(__dirname, "src/lib/index.ts"),
+      },
+
       output: {
-        // Keep asset names stable
-        assetFileNames: "assets/[name][extname]",
-        // Produce predictable file names without content hashes
+        preserveModules: true,
+        preserveModulesRoot: "src",
+
+        // Clean + stable file names
         entryFileNames: "[name].js",
         chunkFileNames: "[name].js",
-        // Preserve module layout so consumers can tree-shake/import specific modules if needed
-        preserveModules: true,
+        assetFileNames: "assets/[name][extname]",
+
+        // Ensures classnames & code splitting stay readable
+        compact: true,
       },
     },
   },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

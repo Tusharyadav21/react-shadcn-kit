@@ -2,7 +2,7 @@
   "name": "react-shadcn-kit",
   "author": "Tushar Yadav",
   "private": false,
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -16,36 +16,40 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
-    "./atoms/*": {
-      "types": "./dist/atoms/*.d.ts",
-      "import": "./dist/atoms/*.js"
+    "./default-layout": {
+      "types": "./dist/default-layout.d.ts",
+      "import": "./dist/default-layout.js",
+      "default": "./dist/default-layout.js"
     },
-    "./molecules/*": {
-      "types": "./dist/molecules/*.d.ts",
-      "import": "./dist/molecules/*.js"
+    "./atoms": {
+      "types": "./dist/atoms/index.d.ts",
+      "import": "./dist/atoms/index.js",
+      "default": "./dist/atoms/index.js"
     },
-    "./organisms/*": {
-      "types": "./dist/organisms/*.d.ts",
-      "import": "./dist/organisms/*.js"
+    "./molecules": {
+      "types": "./dist/molecules/index.d.ts",
+      "import": "./dist/molecules/index.js",
+      "default": "./dist/molecules/index.js"
     },
-    "./layouts/*": {
-      "types": "./dist/layouts/*.d.ts",
-      "import": "./dist/layouts/*.js"
+    "./organisms": {
+      "types": "./dist/organisms/index.d.ts",
+      "import": "./dist/organisms/index.js",
+      "default": "./dist/organisms/index.js"
     },
-    "./hooks/*": {
-      "types": "./dist/hooks/*.d.ts",
-      "import": "./dist/hooks/*.js"
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js",
+      "default": "./dist/hooks/index.js"
     },
-    "./lib/*": {
-      "types": "./dist/lib/*.d.ts",
-      "import": "./dist/lib/*.js"
+    "./lib": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js",
+      "default": "./dist/lib/index.js"
     },
-    "./config/*": {
-      "types": "./dist/config/*.d.ts",
-      "import": "./dist/config/*.js"
-    }
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "vite",

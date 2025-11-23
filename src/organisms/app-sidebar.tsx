@@ -1,5 +1,7 @@
+"use client";
+
 import { ChevronDown, LogOut } from "lucide-react";
-import { SidebarThemeToggle } from "./app-sidebar-client";
+import { SidebarThemeToggle } from "../molecules/sidebar-theme-toggle";
 import {
   Sidebar,
   SidebarContent,
@@ -16,10 +18,7 @@ import {
   SidebarMenuSubItem,
 } from "@/atoms/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/atoms/collapsible";
-import { SidebarConfig } from "@/types/navigation";
 import { cn } from "@/lib/utils";
-import { defaultSidebarConfig } from "@/config/default-Sidebar";
-import { defaultSidebarStyles } from "@/config/sidebar.config";
 import { Avatar, AvatarFallback, AvatarImage } from "@/atoms/avatar";
 import {
   DropdownMenu,
@@ -29,72 +28,97 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/atoms/dropdown-menu";
+import type {
+  UserConfig,
+  BrandingConfig,
+  SidebarGroup as SidebarGroupType,
+  MenuItem,
+} from "@/default-layout";
 
-interface AppSidebarProps {
-  config?: Partial<SidebarConfig>;
-  side?: "left" | "right";
-  variant?: "sidebar" | "floating" | "inset";
-  collapsible?: "offcanvas" | "icon" | "none";
+interface SidebarLabels {
+  logout?: string;
+}
+
+interface UserMenuItem {
+  label: string;
+  href?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  onClick?: () => void;
+}
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  groups?: (SidebarGroupType & {
+    items: (MenuItem & {
+      icon?: React.ComponentType<{ className?: string }>;
+      items?: MenuItem[];
+    })[];
+  })[];
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
+  user?: UserConfig;
+  userMenuItems?: UserMenuItem[];
+  branding?: BrandingConfig;
+  labels?: SidebarLabels;
+  fixed?: boolean;
   hideBranding?: boolean;
   showThemeToggle?: boolean;
+  scrollable?: boolean;
 }
 
 export function AppSidebar({
-  config,
-  side = "left",
-  variant,
-  collapsible,
+  groups = [],
+  header,
+  footer,
+  user,
+  userMenuItems,
+  branding,
+  labels,
+  fixed,
   hideBranding = false,
   showThemeToggle = true,
   className,
   style,
-  scrollable,
+  side = "left",
+  variant,
+  collapsible,
+  scrollable = false,
   ...props
-}: AppSidebarProps & React.ComponentProps<typeof Sidebar>) {
-  // Merge with defaults
-  const finalConfig: SidebarConfig = {
-    groups: config?.groups || defaultSidebarConfig.groups,
-    header: config?.header || defaultSidebarConfig.header,
-    footer: config?.footer || defaultSidebarConfig.footer,
-    user: config?.user || defaultSidebarConfig.user,
-    userMenuItems: config?.userMenuItems || defaultSidebarConfig.userMenuItems,
-    branding: hideBranding ? undefined : config?.branding || defaultSidebarConfig.branding,
-    fixed: config?.fixed ?? defaultSidebarConfig.fixed,
-    variant: variant ?? config?.variant ?? defaultSidebarStyles.variant,
-    collapsible: collapsible ?? config?.collapsible ?? defaultSidebarStyles.collapsible,
-    scrollable: scrollable ?? config?.scrollable ?? false,
-    style: { ...defaultSidebarStyles.style, ...config?.style, ...style },
-    className: config?.className,
-  };
+}: AppSidebarProps) {
+  const finalBranding = hideBranding ? undefined : branding;
 
   return (
     <Sidebar
       side={side}
-      variant={finalConfig.variant}
-      collapsible={finalConfig.collapsible}
-      scrollable={finalConfig.scrollable}
-      className={cn(
-        !finalConfig.fixed ? "absolute h-full" : undefined,
-        finalConfig.className,
-        className,
-      )}
-      style={finalConfig.style}
+      variant={variant}
+      collapsible={collapsible}
+      className={cn(!fixed ? "absolute h-full" : undefined, className)}
+      style={style}
       {...props}
     >
-      {finalConfig.header && <SidebarHeader>{finalConfig.header}</SidebarHeader>}
+      {header && <SidebarHeader>{header}</SidebarHeader>}
 
-      {finalConfig.branding && !finalConfig.header && (
+      {finalBranding && !header && (
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
-                <a href={finalConfig.branding.href || "#"}>
+                <a href="#">
                   <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                    {finalConfig.branding.logo && <finalConfig.branding.logo className="size-4" />}
+                    {finalBranding.logoUrl && (
+                      <img
+                        src={finalBranding.logoUrl}
+                        alt={finalBranding.logoAlt || "Logo"}
+                        className="size-4"
+                      />
+                    )}
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{finalConfig.branding.name}</span>
-                    <span className="truncate text-xs">Enterprise</span>
+                    {finalBranding.title && (
+                      <span className="truncate font-semibold">{finalBranding.title}</span>
+                    )}
+                    {finalBranding.subtitle && (
+                      <span className="truncate text-xs">{finalBranding.subtitle}</span>
+                    )}
                   </div>
                 </a>
               </SidebarMenuButton>
@@ -104,7 +128,7 @@ export function AppSidebar({
       )}
 
       <SidebarContent>
-        {finalConfig.groups.map((group, index) => (
+        {groups?.map((group, index) => (
           <SidebarGroup key={group.label || index}>
             {group.label &&
               (group.collapsible ? (
@@ -118,16 +142,19 @@ export function AppSidebar({
                   <CollapsibleContent>
                     <SidebarGroupContent>
                       <SidebarMenu>
-                        {group.items.map((item) => (
-                          <SidebarMenuItem key={item.href}>
-                            <SidebarMenuButton asChild isActive={item.isActive}>
-                              <a href={item.href}>
-                                {item.icon && <item.icon />}
-                                <span>{item.label}</span>
-                              </a>
-                            </SidebarMenuButton>
-                          </SidebarMenuItem>
-                        ))}
+                        {group.items?.map((item) => {
+                          const ItemIcon = item.icon;
+                          return (
+                            <SidebarMenuItem key={item.href}>
+                              <SidebarMenuButton asChild>
+                                <a href={item.href}>
+                                  {ItemIcon && <ItemIcon />}
+                                  <span>{item.label}</span>
+                                </a>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          );
+                        })}
                       </SidebarMenu>
                     </SidebarGroupContent>
                   </CollapsibleContent>
@@ -138,41 +165,49 @@ export function AppSidebar({
             {!group.collapsible && (
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {group.items.map((item) => (
-                    <SidebarMenuItem key={item.href}>
-                      {item.items && item.items.length > 0 ? (
-                        <Collapsible className="group/collapsible">
-                          <SidebarMenuButton asChild isActive={item.isActive}>
-                            <CollapsibleTrigger>
-                              {item.icon && <item.icon />}
+                  {group.items?.map((item) => {
+                    const ItemIcon = item.icon;
+                    const hasSubItems =
+                      "items" in item && Array.isArray(item.items) && item.items.length > 0;
+                    return (
+                      <SidebarMenuItem key={item.href}>
+                        {hasSubItems ? (
+                          <Collapsible className="group/collapsible">
+                            <SidebarMenuButton asChild>
+                              <CollapsibleTrigger>
+                                {ItemIcon && <ItemIcon />}
+                                <span>{item.label}</span>
+                                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                              </CollapsibleTrigger>
+                            </SidebarMenuButton>
+                            <CollapsibleContent>
+                              <SidebarMenuSub>
+                                {("items" in item && Array.isArray(item.items)
+                                  ? item.items
+                                  : []
+                                ).map((subItem: MenuItem) => (
+                                  <SidebarMenuSubItem key={subItem.href}>
+                                    <SidebarMenuSubButton asChild>
+                                      <a href={subItem.href}>
+                                        <span>{subItem.label}</span>
+                                      </a>
+                                    </SidebarMenuSubButton>
+                                  </SidebarMenuSubItem>
+                                ))}
+                              </SidebarMenuSub>
+                            </CollapsibleContent>
+                          </Collapsible>
+                        ) : (
+                          <SidebarMenuButton asChild>
+                            <a href={item.href}>
+                              {ItemIcon && <ItemIcon />}
                               <span>{item.label}</span>
-                              <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-                            </CollapsibleTrigger>
+                            </a>
                           </SidebarMenuButton>
-                          <CollapsibleContent>
-                            <SidebarMenuSub>
-                              {item.items.map((subItem) => (
-                                <SidebarMenuSubItem key={subItem.href}>
-                                  <SidebarMenuSubButton asChild isActive={subItem.isActive}>
-                                    <a href={subItem.href}>
-                                      <span>{subItem.label}</span>
-                                    </a>
-                                  </SidebarMenuSubButton>
-                                </SidebarMenuSubItem>
-                              ))}
-                            </SidebarMenuSub>
-                          </CollapsibleContent>
-                        </Collapsible>
-                      ) : (
-                        <SidebarMenuButton asChild isActive={item.isActive}>
-                          <a href={item.href}>
-                            {item.icon && <item.icon />}
-                            <span>{item.label}</span>
-                          </a>
-                        </SidebarMenuButton>
-                      )}
-                    </SidebarMenuItem>
-                  ))}
+                        )}
+                      </SidebarMenuItem>
+                    );
+                  })}
                 </SidebarMenu>
               </SidebarGroupContent>
             )}
@@ -182,7 +217,7 @@ export function AppSidebar({
 
       <SidebarFooter>
         {showThemeToggle && <SidebarThemeToggle />}
-        {finalConfig.user && (
+        {user && (
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
@@ -192,12 +227,14 @@ export function AppSidebar({
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                   >
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={finalConfig.user.avatar} alt={finalConfig.user.name} />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      <AvatarImage src={user.image} alt={user.name} />
+                      <AvatarFallback className="rounded-lg">
+                        {user.name?.[0] || "U"}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">{finalConfig.user.name}</span>
-                      <span className="truncate text-xs">{finalConfig.user.email}</span>
+                      <span className="truncate font-semibold">{user.name}</span>
+                      <span className="truncate text-xs">{user.email}</span>
                     </div>
                     <ChevronDown className="ml-auto size-4" />
                   </SidebarMenuButton>
@@ -211,28 +248,33 @@ export function AppSidebar({
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage src={finalConfig.user.avatar} alt={finalConfig.user.name} />
-                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                        <AvatarImage src={user.image} alt={user.name} />
+                        <AvatarFallback className="rounded-lg">
+                          {user.name?.[0] || "U"}
+                        </AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">{finalConfig.user.name}</span>
-                        <span className="truncate text-xs">{finalConfig.user.email}</span>
+                        <span className="truncate font-semibold">{user.name}</span>
+                        <span className="truncate text-xs">{user.email}</span>
                       </div>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  {finalConfig.userMenuItems?.map((item, index) => (
-                    <DropdownMenuItem key={index} asChild>
-                      <a href={item.href || "#"} onClick={item.onClick}>
-                        {item.icon && <item.icon className="mr-2 h-4 w-4" />}
-                        <span>{item.label}</span>
-                      </a>
-                    </DropdownMenuItem>
-                  ))}
-                  {!finalConfig.userMenuItems && (
+                  {userMenuItems?.map((item, index) => {
+                    const MenuIcon = item.icon;
+                    return (
+                      <DropdownMenuItem key={index} asChild>
+                        <a href={item.href || "#"} onClick={item.onClick}>
+                          {MenuIcon && <MenuIcon className="mr-2 h-4 w-4" />}
+                          <span>{item.label}</span>
+                        </a>
+                      </DropdownMenuItem>
+                    );
+                  })}
+                  {!userMenuItems && (
                     <DropdownMenuItem>
                       <LogOut className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
+                      <span>{labels?.logout || "Log out"}</span>
                     </DropdownMenuItem>
                   )}
                 </DropdownMenuContent>
@@ -240,7 +282,7 @@ export function AppSidebar({
             </SidebarMenuItem>
           </SidebarMenu>
         )}
-        {finalConfig.footer}
+        {footer}
       </SidebarFooter>
     </Sidebar>
   );

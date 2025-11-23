@@ -1,12 +1,25 @@
 import "./global.css";
 export * from "./organisms/app-sidebar";
 export * from "./organisms/app-navbar";
-export * from "./types/navigation";
-export * from "./config/default-navigation";
-export * from "./config/default-layout";
-export { default as DefaultLayout } from "./layouts/default-layout";
-export { default as BlogLayout } from "./layouts/blog-layout";
-export { default as SidebarScrollLayout } from "./layouts/sidebar-scroll-layout";
+export { default as DefaultLayout } from "./default-layout";
+export type {
+  LayoutConfig,
+  UserConfig,
+  SearchConfig,
+  NotificationsList,
+  NotificationConfig,
+  MenuItem,
+  BrandingConfig,
+  BaseComponentConfig,
+  NavbarConfig,
+  SidebarConfig,
+  ComponentConfig,
+  LayoutRules,
+  RouteType,
+  HttpMethod,
+  NavbarHeight,
+  Placement,
+} from "./default-layout";
 export * from "./atoms/accordion";
 export * from "./atoms/alert-dialog";
 export * from "./atoms/alert";
@@ -60,3 +73,4 @@ export * from "./atoms/textarea";
 export * from "./atoms/toggle-group";
 export * from "./atoms/toggle";
 export * from "./atoms/tooltip";
+export * from "./atoms/theme-provider";

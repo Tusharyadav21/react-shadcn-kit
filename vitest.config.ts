@@ -12,6 +12,24 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    // Enhanced configuration
+    restoreMocks: true,
+    clearMocks: true,
+    mockReset: true,
+    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    exclude: ["node_modules", "dist", ".idea", ".git", ".cache"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      exclude: [
+        "node_modules/",
+        "src/test/",
+        "**/*.d.ts",
+        "**/*.config.{ts,js}",
+        "**/index.{ts,tsx}",
+      ],
+    },
+    reporters: ["verbose"],
   },
   resolve: {
     alias: {
