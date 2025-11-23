@@ -19,7 +19,6 @@ export default defineConfig({
         "src/atoms",
         "src/hooks",
         "src/lib",
-        "src/template",
         "src/molecules",
         "src/organisms",
         "src/layouts",

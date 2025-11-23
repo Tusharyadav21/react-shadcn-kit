@@ -1,3 +1,5 @@
+"use client";
+
 import { SidebarProvider, SidebarInset } from "@/atoms/sidebar";
 import { AppSidebar } from "@/organisms/app-sidebar";
 import { AppNavbar } from "@/organisms/app-navbar";
@@ -5,7 +7,7 @@ import { LayoutConfig } from "@/types/layout";
 import { defaultSidebarConfig } from "@/config/default-Sidebar";
 import { defaultLayoutConfig } from "@/config/default-layout"; // Assuming this import is needed for defaultLayoutConfig
 
-export default function Layout({
+export default function DefaultLayout({
   children,
   userConfig,
   scrollable = false,

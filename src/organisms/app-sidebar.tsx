@@ -1,7 +1,5 @@
-"use client";
-
-import { ChevronDown, LogOut, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+import { ChevronDown, LogOut } from "lucide-react";
+import { SidebarThemeToggle } from "./app-sidebar-client";
 import {
   Sidebar,
   SidebarContent,
@@ -53,7 +51,6 @@ export function AppSidebar({
   scrollable,
   ...props
 }: AppSidebarProps & React.ComponentProps<typeof Sidebar>) {
-  const { setTheme } = useTheme();
   // Merge with defaults
   const finalConfig: SidebarConfig = {
     groups: config?.groups || defaultSidebarConfig.groups,
@@ -184,37 +181,7 @@ export function AppSidebar({
       </SidebarContent>
 
       <SidebarFooter>
-        {showThemeToggle && (
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton size="lg">
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                      <Sun className="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                      <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                    </div>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">Theme</span>
-                      <span className="truncate text-xs">Toggle theme</span>
-                    </div>
-                    <ChevronDown className="ml-auto size-4" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-                  side="bottom"
-                  align="end"
-                  sideOffset={4}
-                >
-                  <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        )}
+        {showThemeToggle && <SidebarThemeToggle />}
         {finalConfig.user && (
           <SidebarMenu>
             <SidebarMenuItem>
