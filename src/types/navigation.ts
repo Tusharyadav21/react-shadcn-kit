@@ -41,6 +41,11 @@ export type SidebarConfig = {
   userMenuItems?: UserMenuItem[];
   branding?: BrandingConfig;
   fixed?: boolean;
+  style?: React.CSSProperties;
+  className?: string;
+  variant?: "sidebar" | "floating" | "inset";
+  collapsible?: "offcanvas" | "icon" | "none";
+  scrollable?: boolean;
 };
 
 export type Notification = {
@@ -57,4 +62,5 @@ export type NavbarConfig = {
   user?: User;
   userMenuItems?: UserMenuItem[];
   notifications?: Notification[];
+  branding?: BrandingConfig;
 };

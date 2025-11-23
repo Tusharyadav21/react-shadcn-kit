@@ -1,8 +1,9 @@
 import "./global.css";
-export * from "./molecules/app-sidebar";
-export * from "./molecules/app-navbar";
+export * from "./organisms/app-sidebar";
+export * from "./organisms/app-navbar";
 export * from "./types/navigation";
 export * from "./config/default-navigation";
+export * from "./config/default-layout";
 export * from "./atoms/accordion";
 export * from "./atoms/alert-dialog";
 export * from "./atoms/alert";

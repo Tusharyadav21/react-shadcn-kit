@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   Sidebar,
   SidebarContent,
@@ -18,7 +19,9 @@ import {
 } from "@/atoms/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/atoms/collapsible";
 import { SidebarConfig } from "@/types/navigation";
-import { defaultSidebarConfig } from "@/config/default-navigation";
+import { cn } from "@/lib/utils";
+import { defaultSidebarConfig } from "@/config/default-Sidebar";
+import { defaultSidebarStyles } from "@/config/sidebar.config";
 import { Avatar, AvatarFallback, AvatarImage } from "@/atoms/avatar";
 import {
   DropdownMenu,
@@ -34,14 +37,23 @@ interface AppSidebarProps {
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
+  hideBranding?: boolean;
+  showThemeToggle?: boolean;
 }
 
 export function AppSidebar({
   config,
   side = "left",
-  variant = "sidebar",
-  collapsible = "icon",
-}: AppSidebarProps) {
+  variant,
+  collapsible,
+  hideBranding = false,
+  showThemeToggle = true,
+  className,
+  style,
+  scrollable,
+  ...props
+}: AppSidebarProps & React.ComponentProps<typeof Sidebar>) {
+  const { setTheme } = useTheme();
   // Merge with defaults
   const finalConfig: SidebarConfig = {
     groups: config?.groups || defaultSidebarConfig.groups,
@@ -49,16 +61,28 @@ export function AppSidebar({
     footer: config?.footer || defaultSidebarConfig.footer,
     user: config?.user || defaultSidebarConfig.user,
     userMenuItems: config?.userMenuItems || defaultSidebarConfig.userMenuItems,
-    branding: config?.branding || defaultSidebarConfig.branding,
+    branding: hideBranding ? undefined : config?.branding || defaultSidebarConfig.branding,
     fixed: config?.fixed ?? defaultSidebarConfig.fixed,
+    variant: variant ?? config?.variant ?? defaultSidebarStyles.variant,
+    collapsible: collapsible ?? config?.collapsible ?? defaultSidebarStyles.collapsible,
+    scrollable: scrollable ?? config?.scrollable ?? false,
+    style: { ...defaultSidebarStyles.style, ...config?.style, ...style },
+    className: config?.className,
   };
 
   return (
     <Sidebar
       side={side}
-      variant={variant}
-      collapsible={collapsible}
-      className={!finalConfig.fixed ? "absolute h-full" : undefined}
+      variant={finalConfig.variant}
+      collapsible={finalConfig.collapsible}
+      scrollable={finalConfig.scrollable}
+      className={cn(
+        !finalConfig.fixed ? "absolute h-full" : undefined,
+        finalConfig.className,
+        className,
+      )}
+      style={finalConfig.style}
+      {...props}
     >
       {finalConfig.header && <SidebarHeader>{finalConfig.header}</SidebarHeader>}
 
@@ -160,6 +184,37 @@ export function AppSidebar({
       </SidebarContent>
 
       <SidebarFooter>
+        {showThemeToggle && (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton size="lg">
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                      <Sun className="size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                      <Moon className="absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    </div>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-semibold">Theme</span>
+                      <span className="truncate text-xs">Toggle theme</span>
+                    </div>
+                    <ChevronDown className="ml-auto size-4" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                  side="bottom"
+                  align="end"
+                  sideOffset={4}
+                >
+                  <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        )}
         {finalConfig.user && (
           <SidebarMenu>
             <SidebarMenuItem>

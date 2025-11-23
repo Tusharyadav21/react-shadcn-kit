@@ -2,7 +2,7 @@
   "name": "react-shadcn-kit",
   "author": "Tushar Yadav",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -15,15 +15,37 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
-    "./atoms/*": "./dist/atoms/*",
-    "./molecules/*": "./dist/molecules/*",
-    "./organisms/*": "./dist/organisms/*",
-    "./hooks/*": "./dist/hooks/*",
-    "./lib/*": "./dist/lib/*",
-    "./config/*": "./dist/config/*"
+    "./atoms/*": {
+      "types": "./dist/atoms/*.d.ts",
+      "import": "./dist/atoms/*.js"
+    },
+    "./molecules/*": {
+      "types": "./dist/molecules/*.d.ts",
+      "import": "./dist/molecules/*.js"
+    },
+    "./organisms/*": {
+      "types": "./dist/organisms/*.d.ts",
+      "import": "./dist/organisms/*.js"
+    },
+    "./layouts/*": {
+      "types": "./dist/layouts/*.d.ts",
+      "import": "./dist/layouts/*.js"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.ts",
+      "import": "./dist/hooks/*.js"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "import": "./dist/lib/*.js"
+    },
+    "./config/*": {
+      "types": "./dist/config/*.d.ts",
+      "import": "./dist/config/*.js"
+    }
   },
   "scripts": {
     "dev": "vite",
@@ -35,7 +57,8 @@
     "lint": "eslint . --report-unused-disable-directives",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "test": "vitest"
+    "test": "vitest",
+    "test:exports": "node scripts/test-exports.mjs"
   },
   "peerDependencies": {
     "react": "^19.2.0",
