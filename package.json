@@ -2,7 +2,7 @@
   "name": "react-shadcn-kit",
   "author": "Tushar Yadav",
   "private": false,
-  "version": "0.0.8",
+  "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",

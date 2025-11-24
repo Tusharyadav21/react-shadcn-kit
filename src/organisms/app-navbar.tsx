@@ -15,7 +15,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/atoms/dropdown-menu";
-import type { UserConfig, BrandingConfig, MenuItem, NotificationsList } from "@/default-layout";
+import type {
+  UserConfig,
+  BrandingConfig,
+  MenuItem,
+  NotificationsList,
+  LoginButtonConfig,
+} from "@/default-layout";
 
 interface NavbarLabels {
   profile?: string;
@@ -45,6 +51,7 @@ interface AppNavbarProps {
   showNotifications?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  loginButton?: LoginButtonConfig;
 }
 
 export function AppNavbar({
@@ -62,6 +69,7 @@ export function AppNavbar({
   showNotifications = true,
   className,
   style,
+  loginButton,
 }: AppNavbarProps) {
   return (
     <header
@@ -114,12 +122,27 @@ export function AppNavbar({
         )}
 
         {showThemeToggle && <ThemeToggle />}
-        {showUserMenu && user && user.name && user.email && (
-          <UserMenu
-            user={{ name: user.name, email: user.email, avatar: user.image }}
-            items={userMenuItems}
-          />
-        )}
+        {showUserMenu &&
+          (user && user.name && user.email ? (
+            <UserMenu
+              user={{ name: user.name, email: user.email, avatar: user.image }}
+              items={userMenuItems}
+            />
+          ) : (
+            loginButton && (
+              <Button
+                variant={loginButton.variant || "default"}
+                onClick={loginButton.onClick}
+                asChild={!!loginButton.href}
+              >
+                {loginButton.href ? (
+                  <a href={loginButton.href}>{loginButton.label || "Login"}</a>
+                ) : (
+                  loginButton.label || "Login"
+                )}
+              </Button>
+            )
+          ))}
 
         {showNotifications && notifications && notifications.length > 0 && (
           <DropdownMenu>

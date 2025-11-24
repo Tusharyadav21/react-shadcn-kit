@@ -60,9 +60,17 @@ export type BrandingConfig = {
   subtitle?: string;
 };
 
+export type LoginButtonConfig = {
+  label?: string;
+  href?: string;
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  onClick?: () => void;
+};
+
 export type BaseComponentConfig = {
   showThemeToggle?: boolean;
   showUserMenu?: boolean;
+  loginButton?: LoginButtonConfig;
   search?: SearchConfig;
   scrollable?: boolean;
   branding?: BrandingConfig;
@@ -185,6 +193,7 @@ export default function DefaultLayout({
             labels={undefined}
             style={{ height: navbar.height }}
             showSidebarTrigger={showSidebar && (navbar.showSidebarTrigger ?? true)}
+            loginButton={navbar.loginButton}
           />
         )}
         <div className="flex flex-1">
@@ -200,6 +209,8 @@ export default function DefaultLayout({
               branding={sidebar.branding}
               labels={undefined}
               hideBranding={false}
+              showUserMenu={sidebar.showUserMenu}
+              loginButton={sidebar.loginButton}
             />
           )}
           <SidebarInset>

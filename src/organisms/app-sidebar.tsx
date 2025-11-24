@@ -2,6 +2,7 @@
 
 import { ChevronDown, LogOut } from "lucide-react";
 import { SidebarThemeToggle } from "../molecules/sidebar-theme-toggle";
+import { Button } from "@/atoms/button";
 import {
   Sidebar,
   SidebarContent,
@@ -33,6 +34,7 @@ import type {
   BrandingConfig,
   SidebarGroup as SidebarGroupType,
   MenuItem,
+  LoginButtonConfig,
 } from "@/default-layout";
 
 interface SidebarLabels {
@@ -63,6 +65,8 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   hideBranding?: boolean;
   showThemeToggle?: boolean;
   scrollable?: boolean;
+  showUserMenu?: boolean;
+  loginButton?: LoginButtonConfig;
 }
 
 export function AppSidebar({
@@ -82,6 +86,8 @@ export function AppSidebar({
   variant,
   collapsible,
   scrollable = false,
+  showUserMenu = true,
+  loginButton,
   ...props
 }: AppSidebarProps) {
   const finalBranding = hideBranding ? undefined : branding;
@@ -217,7 +223,7 @@ export function AppSidebar({
 
       <SidebarFooter>
         {showThemeToggle && <SidebarThemeToggle />}
-        {user && (
+        {user ? (
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
@@ -281,6 +287,24 @@ export function AppSidebar({
               </DropdownMenu>
             </SidebarMenuItem>
           </SidebarMenu>
+        ) : (
+          showUserMenu &&
+          loginButton && (
+            <div className="p-2">
+              <Button
+                variant={loginButton.variant || "default"}
+                onClick={loginButton.onClick}
+                asChild={!!loginButton.href}
+                className="w-full justify-start"
+              >
+                {loginButton.href ? (
+                  <a href={loginButton.href}>{loginButton.label || "Login"}</a>
+                ) : (
+                  loginButton.label || "Login"
+                )}
+              </Button>
+            </div>
+          )
         )}
         {footer}
       </SidebarFooter>
