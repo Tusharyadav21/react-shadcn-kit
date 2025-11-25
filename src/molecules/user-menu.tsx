@@ -55,11 +55,6 @@ export function UserMenu({ user, items, className }: UserMenuProps) {
             </a>
           </DropdownMenuItem>
         ))}
-        {!items?.length && (
-          <DropdownMenuItem asChild>
-            <a href="#profile">Profile</a>
-          </DropdownMenuItem>
-        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

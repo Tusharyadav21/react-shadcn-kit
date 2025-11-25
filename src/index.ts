@@ -2,24 +2,7 @@ import "./global.css";
 export * from "./organisms/app-sidebar";
 export * from "./organisms/app-navbar";
 export { default as DefaultLayout } from "./default-layout";
-export type {
-  LayoutConfig,
-  UserConfig,
-  SearchConfig,
-  NotificationsList,
-  NotificationConfig,
-  MenuItem,
-  BrandingConfig,
-  BaseComponentConfig,
-  NavbarConfig,
-  SidebarConfig,
-  ComponentConfig,
-  LayoutRules,
-  RouteType,
-  HttpMethod,
-  NavbarHeight,
-  Placement,
-} from "./default-layout";
+export type * from "./default-layout";
 export * from "./atoms/accordion";
 export * from "./atoms/alert-dialog";
 export * from "./atoms/alert";
