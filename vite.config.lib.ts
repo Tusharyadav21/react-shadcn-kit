@@ -12,10 +12,7 @@ export default defineConfig({
   plugins: [
     react(),
     libInjectCss(),
-
-    // Safe: does not break Tailwind build behavior
     tailwindcss(),
-
     dts({
       include: [
         "src/components/primitives",
@@ -24,22 +21,21 @@ export default defineConfig({
         "src/hooks",
         "src/lib",
         "src/index.ts",
-        "src/global.css",
       ],
-      exclude: ["src/test", "**/*.test.tsx", "src/vite-env.d.ts"],
-      rollupTypes: false, // enhances types output stability
+      exclude: ["src/test/**", "src/dev/**", "**/*.test.tsx", "src/vite-env.d.ts"],
+      rollupTypes: true, // ✅ FIXED: Bundle types properly
+      copyDtsFiles: true, // ✅ Copy all .d.ts files
     }),
   ],
 
   build: {
     copyPublicDir: false,
-
-    // ⚡ Safe, fast, zero Tailwind risk
     minify: "esbuild",
     sourcemap: true,
 
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
+      name: "ReactShadcnKit", // ✅ FIXED: Required for types
       formats: ["es"],
     },
 
@@ -54,25 +50,13 @@ export default defineConfig({
         "react-dom",
       ],
 
-      input: {
-        index: resolve(__dirname, "src/index.ts"),
-        "primitives/index": resolve(__dirname, "src/components/primitives/index.ts"),
-        "composites/index": resolve(__dirname, "src/components/composites/index.ts"),
-        "marketing/index": resolve(__dirname, "src/components/marketing/index.ts"),
-        "hooks/index": resolve(__dirname, "src/hooks/index.ts"),
-        "lib/index": resolve(__dirname, "src/lib/index.ts"),
-      },
-
+      // ✅ Simplified: let preserveModules handle submodules
       output: {
         preserveModules: true,
         preserveModulesRoot: "src",
-
-        // Clean + stable file names
         entryFileNames: "[name].js",
         chunkFileNames: "[name].js",
         assetFileNames: "assets/[name][extname]",
-
-        // Ensures classnames & code splitting stay readable
         compact: true,
       },
     },

@@ -2,7 +2,7 @@
   "name": "react-shadcn-kit",
   "author": "Tushar Yadav",
   "private": false,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -17,34 +17,26 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "require": "./dist/index.js"
     },
     "./primitives": {
-      "types": "./dist/primitives/index.d.ts",
-      "import": "./dist/primitives/index.js",
-      "default": "./dist/primitives/index.js"
+      "types": "./dist/components/primitives/index.d.ts",
+      "import": "./dist/components/primitives/index.js",
+      "require": "./dist/components/primitives/index.js"
     },
     "./composites": {
-      "types": "./dist/composites/index.d.ts",
-      "import": "./dist/composites/index.js",
-      "default": "./dist/composites/index.js"
-    },
-    "./marketing": {
-      "types": "./dist/marketing/index.d.ts",
-      "import": "./dist/marketing/index.js",
-      "default": "./dist/marketing/index.js"
+      "types": "./dist/components/composites/index.d.ts",
+      "import": "./dist/components/composites/index.js",
+      "require": "./dist/components/composites/index.js"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js",
-      "default": "./dist/hooks/index.js"
+      "import": "./dist/hooks/index.js"
     },
     "./lib": {
       "types": "./dist/lib/index.d.ts",
-      "import": "./dist/lib/index.js",
-      "default": "./dist/lib/index.js"
-    },
-    "./package.json": "./package.json"
+      "import": "./dist/lib/index.js"
+    }
   },
   "scripts": {
     "dev": "vite",
