@@ -2,7 +2,7 @@
   "name": "react-shadcn-kit",
   "author": "Tushar Yadav",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.2.1",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -19,25 +19,20 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./default-layout": {
-      "types": "./dist/default-layout.d.ts",
-      "import": "./dist/default-layout.js",
-      "default": "./dist/default-layout.js"
+    "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
+      "import": "./dist/primitives/index.js",
+      "default": "./dist/primitives/index.js"
     },
-    "./atoms": {
-      "types": "./dist/atoms/index.d.ts",
-      "import": "./dist/atoms/index.js",
-      "default": "./dist/atoms/index.js"
+    "./composites": {
+      "types": "./dist/composites/index.d.ts",
+      "import": "./dist/composites/index.js",
+      "default": "./dist/composites/index.js"
     },
-    "./molecules": {
-      "types": "./dist/molecules/index.d.ts",
-      "import": "./dist/molecules/index.js",
-      "default": "./dist/molecules/index.js"
-    },
-    "./organisms": {
-      "types": "./dist/organisms/index.d.ts",
-      "import": "./dist/organisms/index.js",
-      "default": "./dist/organisms/index.js"
+    "./marketing": {
+      "types": "./dist/marketing/index.d.ts",
+      "import": "./dist/marketing/index.js",
+      "default": "./dist/marketing/index.js"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
@@ -53,22 +48,20 @@
   },
   "scripts": {
     "dev": "vite",
-    "clean": "rm -rf dist",
-    "prebuild": "npm run clean",
-    "build": "tsc --p ./tsconfig-build.json && vite build -c vite.config.lib.ts",
-    "build:app": "tsc && vite build",
-    "prepack": "npm run build",
-    "lint": "eslint . --report-unused-disable-directives",
-    "preview": "vite preview",
-    "format": "prettier --write .",
     "test": "vitest",
-    "test:exports": "node scripts/test-exports.mjs"
+    "test:exports": "node scripts/test-exports.mjs",
+    "lint": "eslint . --report-unused-disable-directives",
+    "format": "prettier --write .",
+    "preview": "vite preview",
+    "build": "tsc --p ./tsconfig-build.json && rm -rf dist && vite build -c vite.config.lib.ts",
+    "build:app": "tsc && vite build"
   },
   "peerDependencies": {
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
@@ -91,7 +84,6 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.17",
-    "@tailwindcss/vite": "^4.0.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0",
     "vite": "^7.2.4",
@@ -100,6 +92,9 @@
     "vitest": "^4.0.13"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -127,11 +122,13 @@
     "@radix-ui/react-toggle": "^1.1.10",
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.23.26",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.554.0",
     "next-themes": "^0.4.6",

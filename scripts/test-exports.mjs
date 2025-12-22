@@ -7,10 +7,11 @@ const packageJsonPath = resolve("package.json");
 
 // Sanity check imports
 const manualTestImports = [
-  "import { Button } from 'react-shadcn-kit/atoms'",
-  "import { Card } from 'react-shadcn-kit/atoms'",
-  "import { AppNavbar } from 'react-shadcn-kit/organisms'",
-  "import DefaultLayout from 'react-shadcn-kit/default-layout'",
+  "import { Button } from 'react-shadcn-kit/primitives'",
+  "import { Card } from 'react-shadcn-kit/primitives'",
+  "import { ActionButton } from 'react-shadcn-kit/composites'",
+  "import { SidebarWrapper } from 'react-shadcn-kit/composites'",
+  "import { HeroSection } from 'react-shadcn-kit/marketing'",
   "import { useIsMobile } from 'react-shadcn-kit/hooks'",
   "import { cn } from 'react-shadcn-kit/lib'",
 ];
