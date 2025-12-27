@@ -2,7 +2,7 @@
   "name": "react-shadcn-kit",
   "author": "Tushar Yadav",
   "private": false,
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -28,6 +28,21 @@
       "types": "./dist/components/composites/index.d.ts",
       "import": "./dist/components/composites/index.js",
       "require": "./dist/components/composites/index.js"
+    },
+    "./marketing": {
+      "types": "./dist/components/marketing/index.d.ts",
+      "import": "./dist/components/marketing/index.js",
+      "require": "./dist/components/marketing/index.js"
+    },
+    "./data-table": {
+      "types": "./dist/components/data-table/index.d.ts",
+      "import": "./dist/components/data-table/index.js",
+      "require": "./dist/components/data-table/index.js"
+    },
+    "./kanban": {
+      "types": "./dist/components/kanban/index.d.ts",
+      "import": "./dist/components/kanban/index.js",
+      "require": "./dist/components/kanban/index.js"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
@@ -75,6 +90,7 @@
     "prettier": "^3.6.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "rollup-plugin-preserve-directives": "^0.4.0",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0",

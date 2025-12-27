@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
+import preserveDirectives from "rollup-plugin-preserve-directives";
 
 const pkg = JSON.parse(fs.readFileSync(resolve(__dirname, "package.json"), "utf-8"));
 
@@ -13,11 +14,14 @@ export default defineConfig({
     react(),
     libInjectCss(),
     tailwindcss(),
+    preserveDirectives(),
     dts({
       include: [
         "src/components/primitives",
         "src/components/composites",
         "src/components/marketing",
+        "src/components/data-table",
+        "src/components/kanban",
         "src/hooks",
         "src/lib",
         "src/index.ts",
