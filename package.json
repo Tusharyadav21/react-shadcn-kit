@@ -2,7 +2,7 @@
   "name": "react-shadcn-kit",
   "author": "Tushar Yadav",
   "private": false,
-  "version": "0.2.3",
+  "version": "0.2.4",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -17,41 +17,52 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./primitives": {
       "types": "./dist/components/primitives/index.d.ts",
       "import": "./dist/components/primitives/index.js",
-      "require": "./dist/components/primitives/index.js"
+      "require": "./dist/components/primitives/index.js",
+      "default": "./dist/components/primitives/index.js"
     },
     "./composites": {
       "types": "./dist/components/composites/index.d.ts",
       "import": "./dist/components/composites/index.js",
-      "require": "./dist/components/composites/index.js"
+      "require": "./dist/components/composites/index.js",
+      "default": "./dist/components/composites/index.js"
     },
     "./marketing": {
       "types": "./dist/components/marketing/index.d.ts",
       "import": "./dist/components/marketing/index.js",
-      "require": "./dist/components/marketing/index.js"
+      "require": "./dist/components/marketing/index.js",
+      "default": "./dist/components/marketing/index.js"
     },
     "./data-table": {
       "types": "./dist/components/data-table/index.d.ts",
       "import": "./dist/components/data-table/index.js",
-      "require": "./dist/components/data-table/index.js"
+      "require": "./dist/components/data-table/index.js",
+      "default": "./dist/components/data-table/index.js"
     },
     "./kanban": {
       "types": "./dist/components/kanban/index.d.ts",
       "import": "./dist/components/kanban/index.js",
-      "require": "./dist/components/kanban/index.js"
+      "require": "./dist/components/kanban/index.js",
+      "default": "./dist/components/kanban/index.js"
     },
     "./hooks": {
       "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js"
+      "import": "./dist/hooks/index.js",
+      "require": "./dist/hooks/index.js",
+      "default": "./dist/hooks/index.js"
     },
     "./lib": {
       "types": "./dist/lib/index.d.ts",
-      "import": "./dist/lib/index.js"
-    }
+      "import": "./dist/lib/index.js",
+      "require": "./dist/lib/index.js",
+      "default": "./dist/lib/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "vite",
@@ -68,36 +79,36 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.0",
+    "@tailwindcss/vite": "^4.1.18",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.0",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.6",
+    "@testing-library/react": "^16.3.1",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.47.0",
-    "@typescript-eslint/parser": "^8.47.0",
-    "@vitejs/plugin-react": "^5.1.1",
-    "autoprefixer": "^10.4.22",
-    "eslint": "^9.39.1",
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@typescript-eslint/parser": "^8.50.1",
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.23",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
+    "eslint-plugin-react-refresh": "^0.4.26",
     "glob": "^13.0.0",
     "globals": "^16.5.0",
-    "jsdom": "^27.2.0",
+    "jsdom": "^27.4.0",
     "postcss": "^8.5.6",
-    "prettier": "^3.6.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "prettier": "^3.7.4",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "rollup-plugin-preserve-directives": "^0.4.0",
-    "tailwindcss": "^4.1.17",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.47.0",
-    "vite": "^7.2.4",
+    "typescript-eslint": "^8.50.1",
+    "vite": "^7.3.0",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-lib-inject-css": "^2.2.2",
-    "vitest": "^4.0.13"
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -138,15 +149,15 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.26",
     "input-otp": "^1.4.2",
-    "lucide-react": "^0.554.0",
+    "lucide-react": "^0.562.0",
     "next-themes": "^0.4.6",
-    "react-day-picker": "^9.11.1",
-    "react-hook-form": "^7.66.1",
-    "react-resizable-panels": "^3.0.6",
-    "recharts": "^3.4.1",
+    "react-day-picker": "^9.13.0",
+    "react-hook-form": "^7.69.0",
+    "react-resizable-panels": "^4.0.15",
+    "recharts": "^3.6.0",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "vaul": "^1.1.2",
-    "zod": "^4.1.12"
+    "zod": "^4.2.1"
   }
 }

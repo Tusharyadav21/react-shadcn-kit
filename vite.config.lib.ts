@@ -6,8 +6,18 @@ import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
 import preserveDirectives from "rollup-plugin-preserve-directives";
+import { globSync } from "glob";
 
 const pkg = JSON.parse(fs.readFileSync(resolve(__dirname, "package.json"), "utf-8"));
+
+const entry = globSync("src/**/index.ts").reduce(
+  (acc, file) => {
+    const name = path.relative("src", file).replace(/\.(ts|tsx)$/, "");
+    acc[name] = resolve(__dirname, file);
+    return acc;
+  },
+  {} as Record<string, string>,
+);
 
 export default defineConfig({
   plugins: [
@@ -27,7 +37,7 @@ export default defineConfig({
         "src/index.ts",
       ],
       exclude: ["src/test/**", "src/dev/**", "**/*.test.tsx", "src/vite-env.d.ts"],
-      rollupTypes: true, // ✅ FIXED: Bundle types properly
+      rollupTypes: true, // Don't bundle types into one file when using multiple entries
       copyDtsFiles: true, // ✅ Copy all .d.ts files
     }),
   ],
@@ -38,7 +48,7 @@ export default defineConfig({
     sourcemap: true,
 
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry,
       name: "ReactShadcnKit", // ✅ FIXED: Required for types
       formats: ["es"],
     },

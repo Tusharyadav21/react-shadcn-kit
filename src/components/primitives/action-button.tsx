@@ -11,8 +11,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  Button,
-} from "react-shadcn-kit";
+} from "./alert-dialog";
+import { Button } from "./button";
 import { toast } from "sonner";
 import { LoadingSwap } from "./loading-swap";
 
