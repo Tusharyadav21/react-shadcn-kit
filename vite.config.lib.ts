@@ -37,7 +37,7 @@ export default defineConfig({
         "src/index.ts",
       ],
       exclude: ["src/test/**", "src/dev/**", "**/*.test.tsx", "src/vite-env.d.ts"],
-      rollupTypes: true, // Don't bundle types into one file when using multiple entries
+      rollupTypes: false, // Don't bundle types into one file when using multiple entries
       copyDtsFiles: true, // ✅ Copy all .d.ts files
     }),
   ],
